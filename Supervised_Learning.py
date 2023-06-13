@@ -98,6 +98,10 @@ def train(net1, labeled_loader, optimizer, criterion):
         # Write your Code
         # Model should be optimized based on given "targets"
         ####################
+        outputs = model(inputs)  # 모델에 입력 데이터를 전달하여 출력을 얻습니다.
+        loss = criterion(outputs, targets)  # 모델의 출력과 실제 타겟 간의 손실을 계산합니다.
+        loss.backward()  # 손실을 기반으로 모델의 가중치에 대한 그래디언트를 계산합니다.
+        optimizer.step()  # 계산된 그래디언트를 사용하여 옵티마이저를 통해 모델의 가중치를 업데이트합니다.
 
 
 def test(net, testloader):
@@ -118,6 +122,11 @@ def test(net, testloader):
 
 
 if __name__ == "__main__":
+    if torch.cuda.is_available():
+        print("CUDA is here!")
+        print("GPU:", print(torch.cuda.get_device_name(0)))
+    else:
+        print("No CUDA...")
     print("Main Start")
     parser = argparse.ArgumentParser()
     parser.add_argument("--test", type=str, default="False")
@@ -193,7 +202,7 @@ if __name__ == "__main__":
     else:
         criterion = nn.CrossEntropyLoss()
 
-    epoch = 10
+    epoch = 50
     # Input the number of Epochs
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
     # Your optimizer here
@@ -202,6 +211,7 @@ if __name__ == "__main__":
     best_result = 0
     if args.test == "False":
         assert params < 7.0, "Exceed the limit on the number of model parameters"
+        print("Number of params:", params)
         print("Training...")  # MY
         for e in range(0, epoch):
             print("epoch:", e)  # MY
@@ -216,7 +226,7 @@ if __name__ == "__main__":
                     model.state_dict(),
                     os.path.join("./logs", "Supervised_Learning", "best_model.pt"),
                 )
-        print("Final performance {} - {}", best_result, params)
+        print("Final performance {} - {}".format(e, tmp_res))
 
     else:
         # This part is used to evaluate.
