@@ -10,6 +10,24 @@ from PIL import Image
 import argparse
 
 
+MY_EPOCH = 30
+MY_BATCH_SIZE = 64
+MY_MODEL_NAME = "resnet"  # e.g., 'resnet', 'vgg', 'mobilenet', 'custom'
+MY_OPTIMIZER = "Search for '# MY_OPTIMIZER'"
+MY_LR = 0.01  # original 0.001
+MY_MOMENTUM = 0.9  # original 0.9
+
+import datetime
+
+current_datetime = datetime.datetime.now()
+
+with open("output.txt", "a") as file:
+    file.write(str(current_datetime) + "\n")
+    file.write("model:" + MY_MODEL_NAME + "\n")
+    file.write("epoch:" + str(MY_EPOCH) + "/batch size:" + str(MY_BATCH_SIZE) + "\n")
+    file.write("lr:" + str(MY_LR) + "/momentum:" + str(MY_MOMENTUM) + "\n")
+
+
 class CustomDataset(Dataset):
     def __init__(self, root, transform=None):
         self.root = root
@@ -124,7 +142,7 @@ def test(net, testloader):
 if __name__ == "__main__":
     if torch.cuda.is_available():
         print("CUDA is here!")
-        print("GPU:", print(torch.cuda.get_device_name(0)))
+        print("GPU:", torch.cuda.get_device_name(0))
     else:
         print("No CUDA...")
     print("Main Start")
@@ -138,7 +156,7 @@ if __name__ == "__main__":
     ):
         os.makedirs(os.path.join(args.student_abs_path, "logs", "Supervised_Learning"))
 
-    batch_size = 32
+    batch_size = MY_BATCH_SIZE
     # Input the number of batch size
     if args.test == "False":
         print("Data Transform")  # MY
@@ -183,7 +201,7 @@ if __name__ == "__main__":
             ]
         )
 
-    model_name = "resnet"
+    model_name = MY_MODEL_NAME
     # Input model name to use in the model_section class
     # e.g., 'resnet', 'vgg', 'mobilenet', 'custom'
 
@@ -202,9 +220,12 @@ if __name__ == "__main__":
     else:
         criterion = nn.CrossEntropyLoss()
 
-    epoch = 50
+    epoch = MY_EPOCH
     # Input the number of Epochs
-    optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+    MY_OPTIMIZER = "Here"
+    optimizer = optim.SGD(
+        model.parameters(), lr=MY_LR, momentum=MY_MOMENTUM
+    )  # MY_OPTIMIZER
     # Your optimizer here
     # You may want to add a scheduler for your loss
 
@@ -227,6 +248,11 @@ if __name__ == "__main__":
                     os.path.join("./logs", "Supervised_Learning", "best_model.pt"),
                 )
         print("Final performance {} - {}".format(e, tmp_res))
+        with open("output.txt", "a") as file:
+            file.write(str(current_datetime) + "\n")
+            file.write(
+                "Best Res:" + str(best_result) + "/Last Res:" + str(tmp_res) + "\n"
+            )
 
     else:
         # This part is used to evaluate.

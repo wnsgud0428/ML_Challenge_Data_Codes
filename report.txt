@@ -1,2 +1,6 @@
 6/13(화)
 2304: epoch 값이 30 정도 되었을때 정확도 올라가진 않음.
+Final performance 29 - 57.84
+model:resnet
+epoch:30/batch size:64
+lr:0.01/momentum:0.9
