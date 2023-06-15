@@ -11,10 +11,10 @@ import argparse
 
 import datetime
 
-MY_EPOCH = 80
 MY_BATCH_SIZE = 128
 MY_MODEL_NAME = "resnet"  # e.g., 'resnet', 'vgg', 'mobilenet', 'custom'
-MY_LR = 0.05  # original 0.001
+MY_EPOCH = 1
+MY_LR = 0.01  # original 0.001
 MY_MOMENTUM = 0.9  # original 0.9
 
 
@@ -222,7 +222,7 @@ if __name__ == "__main__":
         print("Training...")  # MY
         print("----------------")  # MY
 
-        with open("output.txt", "a") as file:
+        with open("output_supervised.txt", "a") as file:
             file.write(str(datetime.datetime.now()) + "\n")
             file.write("Model: " + MY_MODEL_NAME + "\n")
             file.write("Epoch: " + str(MY_EPOCH) + "\n")
@@ -248,6 +248,7 @@ if __name__ == "__main__":
                     os.path.join("./logs", "Supervised_Learning", "best_model.pt"),
                 )
         print("Final performance {} - {}".format(e, tmp_res))
+        print("Best performance {}".format(best_result))
 
         with open("output_supervised.txt", "a") as file:
             file.write(str(datetime.datetime.now()) + "\n")
