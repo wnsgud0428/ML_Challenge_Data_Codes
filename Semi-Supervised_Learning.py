@@ -14,7 +14,7 @@ import datetime
 MY_BATCH_SIZE = 64
 MY_MODEL_SELECTION_1 = "resnet"
 MY_MODEL_SELECTION_2 = "vgg"
-MY_EPOCH = 30
+MY_EPOCH = 50
 
 MY_LR_1_1 = 0.001  # labeled
 MY_LR_2_1 = 0.001
