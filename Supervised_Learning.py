@@ -9,23 +9,13 @@ import os
 from PIL import Image
 import argparse
 
-
-MY_EPOCH = 30
-MY_BATCH_SIZE = 64
-MY_MODEL_NAME = "resnet"  # e.g., 'resnet', 'vgg', 'mobilenet', 'custom'
-MY_OPTIMIZER = "Search for '# MY_OPTIMIZER'"
-MY_LR = 0.01  # original 0.001
-MY_MOMENTUM = 0.9  # original 0.9
-
 import datetime
 
-current_datetime = datetime.datetime.now()
-
-with open("output.txt", "a") as file:
-    file.write(str(current_datetime) + "\n")
-    file.write("model:" + MY_MODEL_NAME + "\n")
-    file.write("epoch:" + str(MY_EPOCH) + "/batch size:" + str(MY_BATCH_SIZE) + "\n")
-    file.write("lr:" + str(MY_LR) + "/momentum:" + str(MY_MOMENTUM) + "\n")
+MY_EPOCH = 80
+MY_BATCH_SIZE = 128
+MY_MODEL_NAME = "resnet"  # e.g., 'resnet', 'vgg', 'mobilenet', 'custom'
+MY_LR = 0.05  # original 0.001
+MY_MOMENTUM = 0.9  # original 0.9
 
 
 class CustomDataset(Dataset):
@@ -140,12 +130,11 @@ def test(net, testloader):
 
 
 if __name__ == "__main__":
+    print("Main Start...")
     if torch.cuda.is_available():
-        print("CUDA is here!")
-        print("GPU:", torch.cuda.get_device_name(0))
+        print("CUDA is here :) / GPU:" + torch.cuda.get_device_name(0))
     else:
-        print("No CUDA...")
-    print("Main Start")
+        print("No CUDA :(")
     parser = argparse.ArgumentParser()
     parser.add_argument("--test", type=str, default="False")
     parser.add_argument("--student_abs_path", type=str, default="./")
@@ -159,7 +148,7 @@ if __name__ == "__main__":
     batch_size = MY_BATCH_SIZE
     # Input the number of batch size
     if args.test == "False":
-        print("Data Transform")  # MY
+        print("Data transforming...")  # MY
         train_transform = transforms.Compose(
             [
                 transforms.RandomResizedCrop(64, scale=(0.2, 1.0)),
@@ -222,10 +211,7 @@ if __name__ == "__main__":
 
     epoch = MY_EPOCH
     # Input the number of Epochs
-    MY_OPTIMIZER = "Here"
-    optimizer = optim.SGD(
-        model.parameters(), lr=MY_LR, momentum=MY_MOMENTUM
-    )  # MY_OPTIMIZER
+    optimizer = optim.SGD(model.parameters(), lr=MY_LR, momentum=MY_MOMENTUM)
     # Your optimizer here
     # You may want to add a scheduler for your loss
 
@@ -234,6 +220,19 @@ if __name__ == "__main__":
         assert params < 7.0, "Exceed the limit on the number of model parameters"
         print("Number of params:", params)
         print("Training...")  # MY
+        print("----------------")  # MY
+
+        with open("output.txt", "a") as file:
+            file.write(str(datetime.datetime.now()) + "\n")
+            file.write("Model: " + MY_MODEL_NAME + "\n")
+            file.write("Epoch: " + str(MY_EPOCH) + "\n")
+            file.write("Batch size: " + str(MY_BATCH_SIZE) + "\n")
+            file.write("Learning Rate: " + str(MY_LR) + "\n")
+            file.write("Momentum: " + str(MY_MOMENTUM) + "\n")
+            file.write("Number of params: " + str(params) + "\n")
+            file.write("\n")
+
+        res_for_each_epoch = []  # MY
         for e in range(0, epoch):
             print("epoch:", e)  # MY
             train(model, labeled_loader, optimizer, criterion)
@@ -241,6 +240,7 @@ if __name__ == "__main__":
             # You can change the saving strategy, but you can't change the file name/path
             # If there's any difference to the file name/path, it will not be evaluated.
             print("{}th performance, res : {}".format(e, tmp_res))
+            res_for_each_epoch.append(tmp_res)  # MY
             if best_result < tmp_res:
                 best_result = tmp_res
                 torch.save(
@@ -248,11 +248,18 @@ if __name__ == "__main__":
                     os.path.join("./logs", "Supervised_Learning", "best_model.pt"),
                 )
         print("Final performance {} - {}".format(e, tmp_res))
-        with open("output.txt", "a") as file:
-            file.write(str(current_datetime) + "\n")
+
+        with open("output_supervised.txt", "a") as file:
+            file.write(str(datetime.datetime.now()) + "\n")
+            file.write("Best Res: " + str(best_result) + "\n")
+            file.write("Last Res: " + str(tmp_res) + "\n")
             file.write(
-                "Best Res:" + str(best_result) + "/Last Res:" + str(tmp_res) + "\n"
+                "res_for_each_epoch: ["
+                + str(", ".join(list(map(str, res_for_each_epoch))))
+                + "]"
+                + "\n"
             )
+            file.write("------------------------------//" + "\n")
 
     else:
         # This part is used to evaluate.
