@@ -46,3 +46,19 @@ params_1: 2.777674
 best_result_2: 72.0
 params_2: 4.75521
 ------------------------------//
+2023-06-16 05:09:44.006280
+Batch size: 64
+Model 1: resnet
+Model 2: vgg
+Epoch: 50
+Learning Rate 1_1(labeled): 0.001
+Learning Rate 2_1(labeled): 0.001
+Learning Rate 1_2(unlabeled): 0.01
+Learning Rate 2_2(unlabeled): 0.01
+
+2023-06-16 05:41:07.020243
+best_result_1: 46.4
+params_1: 2.777674
+best_result_2: 75.6
+params_2: 4.75521
+------------------------------//
