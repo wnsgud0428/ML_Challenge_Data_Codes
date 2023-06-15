@@ -1,0 +1,32 @@
+2023-06-16 03:33:18.358861
+Batch size: 64
+Model 1: resnet
+Model 2: vgg
+Epoch: 1
+Learning Rate 1_1(labeled): 0.001
+Learning Rate 2_1(labeled): 0.001
+Learning Rate 1_2(unlabeled): 0.01
+Learning Rate 2_2(unlabeled): 0.01
+
+2023-06-16 03:33:59.369748
+best_result_1: 14.6
+params_1: 2.777674
+best_result_2: 29.0
+params_2: 4.75521
+------------------------------//
+2023-06-16 03:34:29.110887
+Batch size: 64
+Model 1: resnet
+Model 2: vgg
+Epoch: 10
+Learning Rate 1_1(labeled): 0.001
+Learning Rate 2_1(labeled): 0.001
+Learning Rate 1_2(unlabeled): 0.01
+Learning Rate 2_2(unlabeled): 0.01
+
+2023-06-16 03:40:48.171531
+best_result_1: 34.0
+params_1: 2.777674
+best_result_2: 59.6
+params_2: 4.75521
+------------------------------//
