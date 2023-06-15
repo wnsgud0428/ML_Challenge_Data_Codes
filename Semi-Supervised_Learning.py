@@ -9,8 +9,14 @@ import os
 from PIL import Image
 import argparse
 
+import datetime
 
-
+MY_BATCH_SIZE = 128
+MY_EPOCH = 80
+MY_MODEL_SELECTION_1 = "resnet"
+MY_MODEL_SELECTION_2 = "vgg"
+MY_LR = 0.05  # original 0.001
+MY_MOMENTUM = 0.9  # original 0.9
 
 class CustomDataset(Dataset):
     def __init__(self, root, transform=None):
@@ -67,6 +73,7 @@ class Custom_model(nn.Module):
         #CNN, MLP and etc.
 
     def forward(self, input):
+        predicted_label = ""
         #place for your model
         #Input: 3* Width * Height
         #Output: Probability of 10 class label
@@ -163,7 +170,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
 
-    batch_size =  #Input the number of batch size
+    batch_size = MY_BATCH_SIZE 
+    #Input the number of batch size
     if args.test == 'False':
         train_transform = transforms.Compose([
                     transforms.RandomResizedCrop(64, scale=(0.2, 1.0)),
@@ -196,8 +204,10 @@ if __name__ == "__main__":
 
     
     
-    model_sel_1 =  #write your choice of model (e.g., 'vgg')
-    model_sel_2 =  #write your choice of model (e.g., 'resnet)
+    model_sel_1 =  MY_MODEL_SELECTION_1
+    #write your choice of model (e.g., 'vgg')
+    model_sel_2 =  MY_MODEL_SELECTION_2
+    #write your choice of model (e.g., 'resnet)
 
 
     model1 = model_selection(model_sel_1)
@@ -221,13 +231,14 @@ if __name__ == "__main__":
         criterion = nn.CrossEntropyLoss()    
         
     
-    optimizer1_1 = #Optimizer for model 1 in labeled training
+    optimizer1_1 = optim.SGD#Optimizer for model 1 in labeled training
     optimizer2_1 = #Optimizer for model 2 in labeled training 
 
     optimizer1_2 = #Optimizer for model 1 in unlabeled training
     optimizer2_2 = #Optimizer for model 2 in unlabeled training
 
-    epoch = #Input the number of epochs
+    epoch = MY_EPOCH
+    #Input the number of epochs
 
     if args.test == 'False':
         assert params_1 < 7.0, "Exceed the limit on the number of model_1 parameters" 
