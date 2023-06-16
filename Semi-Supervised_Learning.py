@@ -12,7 +12,7 @@ import argparse
 import datetime
 
 
-MY_BATCH_SIZE = 64
+MY_BATCH_SIZE = 128
 MY_MODEL_SELECTION_1 = "resnet"
 MY_MODEL_SELECTION_2 = "vgg"
 MY_EPOCH = 100
