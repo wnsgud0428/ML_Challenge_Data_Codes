@@ -13,9 +13,10 @@ import datetime
 
 MY_BATCH_SIZE = 32
 MY_MODEL_NAME = "resnet"  # e.g., 'resnet', 'vgg', 'mobilenet', 'custom'
-MY_EPOCH = 200
+MY_EPOCH = 300
 MY_LR = 0.001  # original 0.001
-MY_MOMENTUM = 0.9  # original 0.9
+# MY_MOMENTUM = 0.9  # original 0.9
+MY_BETAS = (0.9, 0.999)  # original (0.9, 0.999)
 
 
 class CustomDataset(Dataset):
@@ -211,7 +212,10 @@ if __name__ == "__main__":
 
     epoch = MY_EPOCH
     # Input the number of Epochs
-    optimizer = optim.SGD(model.parameters(), lr=MY_LR, momentum=MY_MOMENTUM)
+    # optimizer = optim.SGD(model.parameters(), lr=MY_LR, momentum=MY_MOMENTUM)
+    optimizer = optim.Adam(model.parameters(), lr=MY_LR, betas=MY_BETAS)
+    criterion = nn.CrossEntropyLoss()
+
     # Your optimizer here
     # You may want to add a scheduler for your loss
 
