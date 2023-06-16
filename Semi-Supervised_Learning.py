@@ -15,12 +15,12 @@ import datetime
 MY_BATCH_SIZE = 32
 MY_MODEL_SELECTION_1 = "resnet"
 MY_MODEL_SELECTION_2 = "vgg"
-MY_EPOCH = 100
+MY_EPOCH = 200
 
-MY_LR_1_1 = 0.001  # labeled
-MY_LR_2_1 = 0.001
-MY_LR_1_2 = 0.01  # unlabeled
-MY_LR_2_2 = 0.01
+MY_LR_1_1 = 0.0005  # labeled
+MY_LR_2_1 = 0.0005
+MY_LR_1_2 = 0.005  # unlabeled
+MY_LR_2_2 = 0.005
 
 
 class CustomDataset(Dataset):
