@@ -11,11 +11,10 @@ import argparse
 
 import datetime
 
-MY_BATCH_SIZE = 32
+MY_BATCH_SIZE = 64
 MY_MODEL_NAME = "resnet"  # e.g., 'resnet', 'vgg', 'mobilenet', 'custom'
-MY_EPOCH = 300
+MY_EPOCH = 150
 MY_LR = 0.001  # original 0.001
-# MY_MOMENTUM = 0.9  # original 0.9
 MY_BETAS = (0.9, 0.999)  # original (0.9, 0.999)
 
 
@@ -232,7 +231,9 @@ if __name__ == "__main__":
             file.write("Epoch: " + str(MY_EPOCH) + "\n")
             file.write("Batch size: " + str(MY_BATCH_SIZE) + "\n")
             file.write("Learning Rate: " + str(MY_LR) + "\n")
-            file.write("Momentum: " + str(MY_MOMENTUM) + "\n")
+            # file.write("Momentum: " + str(MY_MOMENTUM) + "\n")
+            file.write("Beats[0]: " + str(MY_BETAS[0]) + "\n")
+            file.write("Beats[1]: " + str(MY_BETAS[1]) + "\n")
             file.write("Number of params: " + str(params) + "\n")
             file.write("\n")
 
