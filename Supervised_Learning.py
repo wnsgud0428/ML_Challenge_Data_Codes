@@ -13,7 +13,7 @@ import datetime
 
 MY_BATCH_SIZE = 64
 MY_MODEL_NAME = "resnet"  # e.g., 'resnet', 'vgg', 'mobilenet', 'custom'
-MY_EPOCH = 50
+MY_EPOCH = 100
 MY_LR = 0.01  # original 0.001
 MY_MOMENTUM = 0.9  # original 0.9
 
