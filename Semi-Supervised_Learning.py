@@ -12,16 +12,20 @@ import argparse
 import datetime
 
 
-MY_BATCH_SIZE = 32
+MY_BATCH_SIZE = 64
 MY_MODEL_SELECTION_1 = "resnet"
 MY_MODEL_SELECTION_2 = "vgg"
-MY_EPOCH = 300
+MY_EPOCH = 150
 
 
-MY_LR_1_1 = 0.0005  # labeled
-MY_LR_2_1 = 0.0005
-MY_LR_1_2 = 0.005  # unlabeled
-MY_LR_2_2 = 0.005
+MY_LR_1_1 = 0.005  # labeled
+MY_LR_2_1 = 0.005
+MY_LR_1_2 = 0.0005  # unlabeled
+MY_LR_2_2 = 0.0005
+# 학습률 (learning rate):
+# 라벨이 있는 학습(optimizer1_1, optimizer2_1): 0.001 ~ 0.1 사이의 값으로 시작
+# 라벨이 없는 학습(optimizer1_2, optimizer2_2): 0.0001 ~ 0.01 사이의 값으로 시작
+# 초기 학습률로 시작하고, 학습 진행에 따라 조정
 
 
 class CustomDataset(Dataset):
@@ -288,14 +292,14 @@ if __name__ == "__main__":
     else:
         criterion = nn.CrossEntropyLoss()
 
-    optimizer1_1 = optim.SGD(model1.parameters(), lr=MY_LR_1_1)
+    optimizer1_1 = optim.Adam(model1.parameters(), lr=MY_LR_1_1)
     # Optimizer for model 1 in labeled training
-    optimizer2_1 = optim.Adam(model2.parameters(), lr=MY_LR_2_1)
+    optimizer2_1 = optim.Adam(model1.parameters(), lr=MY_LR_2_1)
     # Optimizer for model 2 in labeled training
 
-    optimizer1_2 = optim.SGD(model1.parameters(), lr=MY_LR_1_2)
+    optimizer1_2 = optim.Adam(model1.parameters(), lr=MY_LR_1_2)
     # Optimizer for model 1 in unlabeled training
-    optimizer2_2 = optim.Adam(model2.parameters(), lr=MY_LR_2_2)
+    optimizer2_2 = optim.Adam(model1.parameters(), lr=MY_LR_2_2)
     # Optimizer for model 2 in unlabeled training
 
     epoch = MY_EPOCH
