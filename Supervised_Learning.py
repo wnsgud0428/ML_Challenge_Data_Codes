@@ -11,10 +11,10 @@ import argparse
 
 import datetime
 
-MY_BATCH_SIZE = 128
+MY_BATCH_SIZE = 32
 MY_MODEL_NAME = "resnet"  # e.g., 'resnet', 'vgg', 'mobilenet', 'custom'
-MY_EPOCH = 100
-MY_LR = 0.01  # original 0.001
+MY_EPOCH = 200
+MY_LR = 0.005  # original 0.001
 MY_MOMENTUM = 0.9  # original 0.9
 
 
